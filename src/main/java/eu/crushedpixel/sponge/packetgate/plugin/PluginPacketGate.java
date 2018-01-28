@@ -13,11 +13,14 @@ import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.plugin.Plugin;
 
-@Plugin(id = PluginPacketGate.ID, version = PluginPacketGate.VERSION)
+@Plugin(id = PluginPacketGate.ID,
+        version = PluginPacketGate.VERSION,
+        description = PluginPacketGate.DESCRIPTION)
 public class PluginPacketGate {
 
     static final String ID = "packetgate";
     static final String VERSION = "0.1.1";
+    static final String DESCRIPTION = "Sponge library to manipulate incoming and outgoing Packets.";
 
     @Inject
     private Logger logger;
@@ -29,8 +32,8 @@ public class PluginPacketGate {
 
         NetworkSystem networkSystem = ((MinecraftServer) Sponge.getServer()).getNetworkSystem();
         for (ChannelFuture channelFuture : networkSystem.endpoints) {
-            channelFuture.channel().pipeline().addFirst(new CustomChannelInitializer(logger, packetGate));
-            logger.info("Successfully injected channel initializer into endpoint");
+            channelFuture.channel().pipeline().addFirst(new CustomChannelInitializer(this.logger, packetGate));
+            this.logger.info("Successfully injected channel initializer into endpoint");
         }
     }
 
